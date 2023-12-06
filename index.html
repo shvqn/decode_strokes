@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decode Keystrokes</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        label {
+            margin-bottom: 8px;
+        }
+        textarea {
+            padding: 8px;
+            margin-bottom: 16px;
+            width: 100%;
+            resize: vertical;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button.paste {
+            margin-left: 8px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            padding: 8px;
+            margin: 4px 0;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Decode Keystrokes</h1>
+    <form id="inputForm">
+        <textarea id="userInput" name="userInput" rows="4" onkeypress="if(event.keyCode === 13) addInput();" onpaste="handlePaste(event)" required></textarea>
+        <button type="button" onclick="addInput()">Submit</button>
+    </form>
+    <h2>History:</h2>
+    <ul id="inputHistory"></ul>
+    <script>
+        let inputHistory = [];
+        function addInput() {
+            const userInput = document.getElementById("userInput").value;
+            const processedInput = userInput.replace(/(backspace|esc|caps_lock)/gi, '');
+            console.log(processedInput);
+            if (processedInput.trim() !== "") {
+                inputHistory.unshift(processedInput);
+                displayInputHistory();
+                document.getElementById("userInput").value = "";
+            }
+        }
+        function displayInputHistory() {
+            const inputHistoryList = document.getElementById("inputHistory");
+            inputHistoryList.innerHTML = "";
+            inputHistory.forEach(input => {
+                const listItem = document.createElement("li");
+                listItem.textContent = input;
+                inputHistoryList.appendChild(listItem);
+            });
+        }
+    </script>
+</body>
+</html>
